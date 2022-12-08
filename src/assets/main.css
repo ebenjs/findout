@@ -1,0 +1,11 @@
+body, html, #app{
+    height: 100%;
+}
+
+body{
+    background-image: linear-gradient(to top, rgba(26,23,33,0.988), rgba(26,23,33,0.988)), url('assets/images/bg.svg?v=81f23adc');
+    background-position: 0% 0%, center;
+    background-repeat: repeat, repeat;
+    background-size: auto, cover;
+    background-color: #1A1721;
+}
