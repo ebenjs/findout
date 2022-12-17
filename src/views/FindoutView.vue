@@ -15,6 +15,7 @@
           Redigez votre question en la saisissant dans le champs ci-dessous et
           en appuyant sur le bouton demander.
         </p>
+
         <textarea
           class="writting-zone w-100 mt-5"
           placeholder="Formulez votre demande"
@@ -32,10 +33,6 @@
           class="alert alert-success text-warning text-left mt-5"
           role="alert"
         >
-          <p>
-            Votre question a bien été enregistrée. Vous la retrouverez en bas
-            des questions posées dans le volet de droite.
-          </p>
           <ul>
             <li v-for="(error, index) in errors" :key="index">
               {{ error.message }}
@@ -54,11 +51,27 @@
       </div>
     </div>
   </div>
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div
+      id="liveToast"
+      class="toast"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+    >
+      <div class="toast-header">
+        <strong class="me-auto">Findout</strong>
+        <small>Maintenant</small>
+      </div>
+      <div class="toast-body">Votre question a bien été enregistrée.</div>
+    </div>
+  </div>
 </template>
 
 <script>
 import AskComponent from "../components/AskComponent.vue";
 import NavbarComponent from "../components/NavbarComponent.vue";
+import { Toast } from "bootstrap";
 import { useUserStore } from "../stores/user";
 
 export default {
@@ -89,6 +102,10 @@ export default {
       });
       this.submittedQuestionStatus = 1;
       this.question = "";
+      const toastLiveExample = document.getElementById("liveToast");
+
+      const toast = new Toast(toastLiveExample);
+      toast.show();
     },
   },
   components: { AskComponent, NavbarComponent },

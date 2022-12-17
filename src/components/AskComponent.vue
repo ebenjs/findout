@@ -70,11 +70,9 @@
             </div>
             <div class="col border-start border-color-black">
               <p class="lead">Demande de base</p>
-              <p class="highlight p-3 rounded">
-                {{ ask }}
-              </p>
+              <p class="highlight p-3 rounded askedQuestionPlaceholder"></p>
               <p class="lead h3">Réponse(s) des pairs</p>
-              <div v-if="currentAsk.responses.length > 0">
+              <div v-if="currentAsk.responses">
                 <div
                   v-for="(response, index) in currentAsk.responses"
                   :key="index"
@@ -120,40 +118,24 @@ export default {
     return {
       userStore: useUserStore(),
       response: "",
-      testObj: null,
+      currentAsk: { question: "", responses: [] },
     };
-  },
-  computed: {
-    currentAsk: {
-      get() {
-        return this.ask;
-      },
-      set(newValue) {
-        this.$emit("update:ask", newValue);
-      },
-    },
   },
   methods: {
     handleRespondClick(ask) {
-      console.log("ask", ask);
-      /*const myModal = document.querySelector("#replyModal");
-      const modal = new bootstrap.Modal(myModal);
-      console.log(modal);
-      myModal.hide();*/
-      /*this.currentAsk = ask;
-      console.log(this.currentAsk);
-      let replyModal = new Modal(document.getElementById("replyModal"));
-      replyModal.show();
-
-      const myModal = document.querySelector("#replyModal");
-
-      myModal.addEventListener("show.bs.modal", (event) => {
-        console.log("in the event method");
-        this.currentAsk = ask;
-      });*/
+      this.currentAsk = ask;
+      let myModal = document.querySelector("#replyModal");
+      const modalQuestionPlaceholder = myModal.querySelector(
+        ".askedQuestionPlaceholder"
+      );
+      modalQuestionPlaceholder.textContent = `${this.currentAsk.question}`;
+      let modal = new Modal(myModal);
+      modal.show();
     },
     handleResponseSubmit() {
       let currentDate = new Date();
+      console.log("current ask", this.currentAsk.question);
+      console.log("current ask", this.currentAsk.responses);
       this.currentAsk.responses.push({
         response: this.response,
         author: this.userStore.user,
